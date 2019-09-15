@@ -1,0 +1,46 @@
+body {
+    background-color: black;
+    font-family: 'Philosopher', sans-serif;
+    color: antiquewhite;
+}
+
+.card {
+    color: black;
+    border: 1rem solid gray;
+}
+
+.jumbotron {
+    background: none;
+    color: #000;
+}
+
+#game-stats {
+    height:25vh;
+}
+
+#inside-sphere {
+    position: absolute;
+    color: black;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#main-row {
+    height:100vh;
+}
+
+#sphere {
+    width: 90%;
+    position: relative;
+    text-align: center;
+}
+
+#timer {
+    font-size: 7rem;
+}
+
+#title {
+    font-size: 5vw;
+}
+

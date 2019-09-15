@@ -3,7 +3,7 @@ $(document).ready(function() {
     //making global variables for the game
     var numberCorrect = 0;
     var numberIncorrect = 0;
-    var timeRemaining;
+    var timeRemaining =20;
     var intervalId;
     var randomQuestion;
     var correctAnswer;
@@ -82,6 +82,7 @@ $(document).ready(function() {
 
 
     function start() {
+        $("#soundTrack")[0].play()  
         $("#inside-sphere").show();
         $("#sphere").attr("src","assets/images/backgroundGameModeIsolated.png");
         $("#btn").attr("status", "reset")

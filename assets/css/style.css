@@ -14,8 +14,17 @@ body {
     color: #000;
 }
 
-#game-stats {
-    height:25vh;
+#btn {
+    width: 300px;
+    height: auto;
+}
+
+#gif {
+    position: absolute;
+    height: 65%;
+    width:80%;
+    margin-left: 25%;
+    /* transform: translate(-50%, -50%); */
 }
 
 #inside-sphere {
@@ -31,7 +40,7 @@ body {
 }
 
 #sphere {
-    width: 90%;
+    width: 80%;
     position: relative;
     text-align: center;
 }
@@ -44,3 +53,13 @@ body {
     font-size: 5vw;
 }
 
+#tv {
+    width: 70%;
+    position: relative;
+    z-index: 10;
+}
+
+#tvImg {
+    z-index: 100;
+    margin-left: 50%;
+}

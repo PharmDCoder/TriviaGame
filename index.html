@@ -12,31 +12,38 @@
 <body>
     <div class="container-fluid">  
         <div id="main-row" class="row">
-            <div class="col-5">
+            <div class="col-4">
                 <div id="tv" class="row justify-content-center">                
                     <img id="tvImg" src="assets/images/tv.png" class="img-fluid">
                     <img id="gif" src="" class="text-center">
                 </div>
-                <!-- <div class="row justify-content-center">
-                    <h1 id="title" class="text-center">Philosophy Trivia</h1>
-                </div> -->
-                <div class="row justify-content-center">
-                    <img id="btn" class="img-fluid" src="assets/images/buttonBlackBackground.png" status="start"> 
+                <div id="title" class="row justify-content-center">
+                    <h1 id="titleText" class="text-center"></h1>
                 </div>
-                <!-- <div class="row justify-content-center">
-                    <div id="game-stats" class="card">
+                <div id="btn"class="row justify-content-center align-middle">
+                    <h1 id="btnWords" class="align-middle"></h1>
+                    <img id="btnImg" class="img-fluid" src="assets/images/buttonBlackBackground.png" status="start"> 
+                </div>
+                <div id="game-stats" class="row justify-content-center">
+                    <div class="card">
                         <div id="timer" class="text-center"></div>
                         <div class="card-body">
                             <h2 id="number-correct"></h2>
                             <h2 id="number-incorrect"></h2>
                         </div>
                     </div> 
-                </div> -->
+                </div>
             </div>
-            <div id="game-center" class="col-7 text-center">
+            <div id="endVideo" class="col-8 text-center">
+                <video id="video">
+                    <source src="assets/video/endGame.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div id="game-center" class="col-8 text-center">
                 <img id="sphere" src="assets/images/backgroundIsolated.png">
                 <div id="inside-sphere">
                     <h3 id="question"></h3>
+                    <br/>
                     <ol id="multipleChoiceList" type="A">
                         <li id="a" class="multipleChoice"></li>
                         <li id="b" class="multipleChoice"></li>

@@ -2,11 +2,17 @@ body {
     background-color: black;
     font-family: 'Philosopher', sans-serif;
     color: antiquewhite;
+    
 }
 
 .card {
     color: black;
     border: 1rem solid gray;
+}
+
+.container {
+    padding: 0;
+    margin: 0;
 }
 
 .jumbotron {
@@ -15,16 +21,37 @@ body {
 }
 
 #btn {
-    width: 300px;
-    height: auto;
+    position: absolute;
+    margin-top: 37%;
+    width: 100%;
+}
+
+#btnImg {
+    width: 50%;
+    position: absolute;
+}
+
+#btnWords {
+    margin-top:4vh;
+    font-size: 4vw;
+    color: black;
+    position: absolute;
+    z-index: 5;
+}
+
+#endVideo {
+    position: relative;
+    top: 10%;
+}
+
+#game-stats {
+    margin-top: 95%;
 }
 
 #gif {
     position: absolute;
     height: 65%;
     width:80%;
-    margin-left: 25%;
-    /* transform: translate(-50%, -50%); */
 }
 
 #inside-sphere {
@@ -37,6 +64,7 @@ body {
 
 #main-row {
     height:100vh;
+    position: relative;
 }
 
 #sphere {
@@ -46,20 +74,44 @@ body {
 }
 
 #timer {
-    font-size: 7rem;
+    font-size: 7vh;
+}
+
+h2 {
+    font-size:3vh;
 }
 
 #title {
+    position: absolute;
+    width: 100%;
+}
+
+#titleText {
     font-size: 5vw;
 }
 
 #tv {
-    width: 70%;
-    position: relative;
+    width: 100%;
+    position: absolute;
     z-index: 10;
 }
 
 #tvImg {
     z-index: 100;
-    margin-left: 50%;
+    width:80%;
 }
+
+#question {
+    font-weight:bold;
+    font-size:1.5vw;
+}
+
+.multipleChoice {
+    margin-top:10px;
+    margin-bottom:10px;
+    font-size:1.4vw;
+}
+
+.multipleChoice:hover {
+    background-color: rgb(198, 199, 199);
+  }

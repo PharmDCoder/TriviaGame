@@ -3,7 +3,7 @@ $(document).ready(function() {
     //making global variables for the game
     var numberCorrect = 0;
     var numberIncorrect = 0;
-    var timeRemaining =20;
+    var timeRemaining = 10;
     var intervalId;
     var randomQuestion;
     var correctAnswer;
@@ -72,28 +72,72 @@ $(document).ready(function() {
     
     //Initializing the start screen
     //hide questions when escher in sphere
-    $("#inside-sphere").hide();
+    // $("#inside-sphere").hide();
     //Adding text content to objects on DOM 
-    $("#timer").text(timeRemaining);
-    $("#number-correct").text("Correct Answers: " + numberCorrect);
-    $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
+    // $("#timer").text(timeRemaining);
+    // $("#btnWords").text("Start");
+    // $("#number-correct").text("Correct Answers: " + numberCorrect);
+    // $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
     //setting start game function when user clicks button
-    $("#btn").on("click", start);
+
+    reset();
+
+    $("#btn").on("click", function () {
+        if ($("#btn").attr("status") === "start") {
+            start();
+        } else {
+            reset();
+        }
+    });
 
 
     function start() {
         $("#soundTrack")[0].play()  
         $("#inside-sphere").show();
         $("#sphere").attr("src","assets/images/backgroundGameModeIsolated.png");
+        $("#btnWords").text("Reset");
         $("#btn").attr("status", "reset")
         console.log("button value " +$("#btn").attr("status"));
         trivia();
     }
 
+    function reset() { 
+        numberCorrect = 0;
+        numberIncorrect = 0;
+        timeRemaining = 10;
+        remainingQuestionsArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+        randomAnswerArr = [];
+        clearInterval(intervalId);
+        $("#titleText").text("Philosophy Trivia");
+        $("#soundTrack")[0].pause();  
+        $("#soundTrack")[0].load();
+        document.getElementById("video").pause();
+        document.getElementById("video").load();
+            //Initializing the start screen
+        //hide end game video
+        $("#endVideo").hide();
+        //hide questions when escher in sphere
+        $("#inside-sphere").hide();
+        $("#tv").hide();
+        $("#game-center").show();
+        $("#title").show();
+        $("#sphere").attr("src","assets/images/backgroundIsolated.png");
+        //Adding text content to objects on DOM 
+        $("#timer").text(timeRemaining);
+        $("#btnWords").text("Start");
+        $("#btn").attr("status", "start");
+        $("#number-correct").text("Correct Answers: " + numberCorrect);
+        $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
+        //setting start game function when user clicks button
+    }
+
     function trivia() {
         $("#multipleChoiceList li").prop('disabled', false);
         if (remainingQuestionsArr.length > 0) {
-            timeRemaining = 5
+            $("#tv").hide();
+            $("#title").show();
+            $("#btn").show();
+            timeRemaining = 10;
             intervalId = setInterval(countDown, 1000);
             getRandomQuestion();
             console.log(game['4'].question)
@@ -110,7 +154,17 @@ $(document).ready(function() {
             console.log("game[randomAnswerArr[3]].answer = " +game[randomAnswerArr[3]].answer);
             console.log("value of #a " +$("#a").text());            
         } else {
-            alert("Game Over");
+            $("#endVideo").show();
+            $("#game-center").hide();
+            $("#soundTrack")[0].pause();  
+            document.getElementById("video").play();
+            $("#tv").hide();
+            $("#btn").show();
+            $("#title").show();
+            $("#titleText").text("Game Over");
+            // setTimeout(() => {
+            //     reset();
+            // }, 52800);  
         }
         
     }
@@ -120,6 +174,9 @@ $(document).ready(function() {
         $("#timer").text(timeRemaining);
         if (timeRemaining === 0) {
             $("#multipleChoiceList li").prop('disabled', true);
+            $("#tv").show();
+            $("#title").hide();
+            $("#btn").hide();
             $("#gif").attr("src", game[randomQuestion].gifSrc);
             numberIncorrect++;
             $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
@@ -139,6 +196,9 @@ $(document).ready(function() {
         console.log("correctAnswer " +correctAnswer);
         if (this.innerHTML === correctAnswer) {
             $("#multipleChoiceList li").prop('disabled', true);
+            $("#tv").show();
+            $("#title").hide();
+            $("#btn").hide();
             $("#gif").attr("src", game[randomQuestion].gifSrc);
             clearInterval(intervalId);
             numberCorrect++;
@@ -151,6 +211,9 @@ $(document).ready(function() {
             }, 5000);
         } else {
             $("#multipleChoiceList li").prop('disabled', true);
+            $("#tv").show();
+            $("#title").hide();
+            $("#btn").hide();
             $("#gif").attr("src", game[randomQuestion].gifSrc);
             clearInterval(intervalId);
             numberIncorrect++;

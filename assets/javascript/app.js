@@ -164,7 +164,7 @@ $(document).ready(function() {
             $("#titleText").text("Game Over");
             // setTimeout(() => {
             //     reset();
-            // }, 52800);  
+            // }, 50000);  
         }
         
     }

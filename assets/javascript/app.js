@@ -205,7 +205,7 @@ $(document).ready(function() {
             $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
             //stop timer
             clearInterval(intervalId);
-            //highlights the correct answer
+            //highlights the correct answer - it finds the position from a findIndex function called in getRandomAnswer function
             $("ol li:nth-child(" +(correctIndex +1) +")").addClass("bg-warning");
             //time out function that after gif plays
             setTimeout(() => {
@@ -229,39 +229,65 @@ $(document).ready(function() {
             $("#tv").show();
             $("#title").hide();
             $("#btn").hide();
+            //changes source of gif to correct answer from game object
             $("#gif").attr("src", game[randomQuestion].gifSrc);
+            //stops the clock
             clearInterval(intervalId);
+            //adds one to correct answers
             numberCorrect++;
+            //displays updated number of correct answers to DOM
             $("#number-correct").text("Correct Answers: " + numberCorrect);
+            //changes color of correct to bold and green
             $(this).addClass("text-success font-weight-bold");
+            //timeout to let gif run before moving to the next question
             setTimeout(() => {
+                //changes list item back to normal and black
                 $(this).removeClass("text-success font-weight-bold");
+                //emptys gif src
                 $("#gif").attr("src", "");
+                //calls trivia function to get next round of Q AND A and restart timer
                 trivia();
             }, 5000);
+        //if guess is wrong
         } else {
+            //disable user from clicking on other answers
             $("#multipleChoiceList li").prop('disabled', true);
+            //change DOM to show giv tv and hide title and button
             $("#tv").show();
             $("#title").hide();
             $("#btn").hide();
+            //pulls correct answer gif source from game object
             $("#gif").attr("src", game[randomQuestion].gifSrc);
+            //stops clock
             clearInterval(intervalId);
+            //adds 1 to incorrects answers
             numberIncorrect++;
+            //displays incorrect answers to DOM
             $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
+            //user's guess is red and bold
             $(this).addClass("text-danger font-weight-bold");
+            //correct answer is highlighted yellow  - it finds the position from a findIndex function called in getRandomAnswer function
             $("ol li:nth-child(" +(correctIndex +1) +")").addClass("bg-warning");
+            //allows gif to run before resetting to next question
             setTimeout(() => {
+                //turns wrong answer li back to black and normal weight
                 $(this).removeClass("text-danger font-weight-bold");
+                //unhighlight correct answer li
                 $("ol li:nth-child(" +(correctIndex +1) +")").removeClass("bg-warning");
+                //empty the gif source
                 $("#gif").attr("src", "");
+                //run trivia game
                 trivia();
             }, 5000);
         }
     });
 
+    //this function gets the random question
     function getRandomQuestion() {
+        //sets random question variable to random function which pulls random number from remaining questions array
         randomQuestion = remainingQuestionsArr[Math.floor(Math.random()*remainingQuestionsArr.length)];
         console.log("random Question = " +randomQuestion);
+        //loop to remove the question picked from remaining questions array so it won't be repeated as game progresses
         for( var i = 0; i < remainingQuestionsArr.length; i++){ 
             if ( remainingQuestionsArr[i] === randomQuestion) {
                 remainingQuestionsArr.splice(i, 1); 
@@ -272,20 +298,27 @@ $(document).ready(function() {
     }
 
     function getRandomAnswer() {
+        //creates answer array and adds the random question (number) to the array
         var answerArr = [randomQuestion];
         console.log("answerArr = " +answerArr);
+        //adds 3 random, nonrepeating numbers from 1-10 to answer array
         for( var i = 0; answerArr.length < 4; i++){ 
+            //sets variable randomAnswer equal to a random number 1-10 and loops until there are 4 numbers in answer array
             var randomAnswer = Math.floor(Math.random() * 10) +1; 
+            //if randomAnswer is not in the array it pushes that number to answer array
             if (randomAnswer !=answerArr[0] && randomAnswer !=answerArr[1] && randomAnswer !=answerArr[2]) {
                 answerArr.push(randomAnswer); 
             }
          }
          console.log("answerArr = " +answerArr)
+        //once answer array is full need to randomize it by calling shuffle function
         randomAnswerArr = shuffle(answerArr);   
+        //sets correctIndex by running find index function.  This is used when identifying the correct answer to highlight
         correctIndex = findIndex();
         console.log("correct index " +correctIndex);        
     }
 
+    //this function identifies what position the correct answer is in the randomAnswer Array
     function findIndex() {
         for (let index = 0; index < randomAnswerArr.length; index++) {
             if (randomQuestion === randomAnswerArr[index]) {
@@ -294,6 +327,7 @@ $(document).ready(function() {
         }
     };
 
+    //generic shuffle array function from the internet
     function shuffle (array) {
 
         var currentIndex = array.length;
@@ -314,18 +348,5 @@ $(document).ready(function() {
         return array;
     
     };
-    // function stop() {
-    
-    //     // DONE: Use clearInterval to stop the count here and set the clock to not be running.
-    //     clearInterval(intervalId);
-    //     clockRunning = false;
-    // }
-    
-    
-    // function reset() {
-    //     time = 20;
-    //     // DONE: Change the "display" div to "00:00."
-    //     $("#display").text("20");
-    // }
 
 });

@@ -12,7 +12,7 @@ $(document).ready(function() {
     var randomAnswerArr = [];
     console.log("randomAnswerArr " +randomAnswerArr.length);
 
-    //making game object
+    //making game object with 10 questions that each have key:value pairs w/ question, answer, and gif source
     var game = {
         1: {  
             question: "This philosopher was put on trial and found guilty of both corrupting the minds of the youth and of impiety and as a punishment was sentenced to death by drinking poison hemlock",
@@ -66,22 +66,11 @@ $(document).ready(function() {
         }
     }
 
-
-    console.log("gameone.one.answer is " +game['9'].answer);
-    console.log("game.one " +game['9'].question);
-    
-    //Initializing the start screen
-    //hide questions when escher in sphere
-    // $("#inside-sphere").hide();
-    //Adding text content to objects on DOM 
-    // $("#timer").text(timeRemaining);
-    // $("#btnWords").text("Start");
-    // $("#number-correct").text("Correct Answers: " + numberCorrect);
-    // $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
-    //setting start game function when user clicks button
-
+    //call the reset function to initialize the start screen of the game
     reset();
 
+    //this is the on click function for the button.
+    //inside the start and reset functions the "status" attribute changes to alternate b/w the 2 states
     $("#btn").on("click", function () {
         if ($("#btn").attr("status") === "start") {
             start();
@@ -90,112 +79,153 @@ $(document).ready(function() {
         }
     });
 
-
+    //this function performs when button clicked and status attr = "start"
     function start() {
+        //play background music
         $("#soundTrack")[0].play()  
+        //display div w/ the question and answers
         $("#inside-sphere").show();
+        //change the background image of the game from escher to blank sphere
         $("#sphere").attr("src","assets/images/backgroundGameModeIsolated.png");
+        //change the text of button from "start" to "reset"
         $("#btnWords").text("Reset");
+        //change status attribute of button to "reset"
         $("#btn").attr("status", "reset")
-        console.log("button value " +$("#btn").attr("status"));
+        //call trivia function which is main function of the game
         trivia();
     }
 
+    //this function resets the game back to start
     function reset() { 
+        //initializing variables to start values
         numberCorrect = 0;
         numberIncorrect = 0;
         timeRemaining = 10;
         remainingQuestionsArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
         randomAnswerArr = [];
+        //stops the timer
         clearInterval(intervalId);
-        $("#titleText").text("Philosophy Trivia");
-        $("#soundTrack")[0].pause();  
+        //stops the background music
+        $("#soundTrack")[0].pause();
+        //resets the background music to the beginning  
         $("#soundTrack")[0].load();
+        //pauses the video in case the user resets game before it finishes
         document.getElementById("video").pause();
+        //resets the video to the beginning
         document.getElementById("video").load();
-            //Initializing the start screen
+        //Initializing the start screen
         //hide end game video
         $("#endVideo").hide();
-        //hide questions when escher in sphere
+        //hide Q and A's so all you see is escher in sphere
         $("#inside-sphere").hide();
+        //hides the gif tv
         $("#tv").hide();
+        //shows the div with the hand/ball
         $("#game-center").show();
+        //shows the game title div
         $("#title").show();
+        //changing status attribute of button so when clicked game will start
+        $("#btn").attr("status", "start");
+        //shows escher version of
         $("#sphere").attr("src","assets/images/backgroundIsolated.png");
         //Adding text content to objects on DOM 
+        $("#titleText").text("Philosophy Trivia");
         $("#timer").text(timeRemaining);
         $("#btnWords").text("Start");
-        $("#btn").attr("status", "start");
         $("#number-correct").text("Correct Answers: " + numberCorrect);
         $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
         //setting start game function when user clicks button
     }
 
+    //this is the trivia function which is the main function of the game
     function trivia() {
+        //this allows user to click on multiple choice answers
         $("#multipleChoiceList li").prop('disabled', false);
+        //if there are still answers in the remaining questions array:
         if (remainingQuestionsArr.length > 0) {
+            //hides gif tv and shows the title and button
             $("#tv").hide();
             $("#title").show();
             $("#btn").show();
+            //resets time left to 10
             timeRemaining = 10;
+            //starts the countdown of time by calling countdown function to happen every second
             intervalId = setInterval(countDown, 1000);
+            //calls function to get the random question
             getRandomQuestion();
-            console.log(game['4'].question)
+            //displays question to DOM
             $("#question").text(game[randomQuestion].question);
+            //sets the correct answer of the random question to the correctAnswer variable 
             correctAnswer = game[randomQuestion].answer;
-            console.log("game.randomQuestion = " +game[randomQuestion])
-            console.log("randomQuestion is type of " +typeof(randomQuestion));
+            //calls get random answer function to pick array of 4 answers - one correct the others incorrect & randomize order
             getRandomAnswer();
-            console.log("randomAnswerArr is " + randomAnswerArr);
+            //displays answers A-D to DOM
             $("#a").text(game[randomAnswerArr[0]].answer);
             $("#b").text(game[randomAnswerArr[1]].answer);
             $("#c").text(game[randomAnswerArr[2]].answer);
             $("#d").text(game[randomAnswerArr[3]].answer);
-            console.log("game[randomAnswerArr[3]].answer = " +game[randomAnswerArr[3]].answer);
-            console.log("value of #a " +$("#a").text());            
+        //else the array is empty so the game is over
         } else {
-            $("#endVideo").show();
-            $("#game-center").hide();
-            $("#soundTrack")[0].pause();  
+
+            //stops the music
+            $("#soundTrack")[0].pause();
+            //plays end of game video  
             document.getElementById("video").play();
+            //setting up DOM to show end of game video, title, and games stats and hide everything else
             $("#tv").hide();
             $("#btn").show();
             $("#title").show();
+            $("#endVideo").show();
+            $("#game-center").hide();
+            //changes title from Philosophy Trivia to Game Over
             $("#titleText").text("Game Over");
-            // setTimeout(() => {
-            //     reset();
-            // }, 50000);  
         }
         
     }
 
+    //function to countdown time and mark question incomplete if time runs down to 0
     function countDown() {
+        //subtract time by 1 (second)
         timeRemaining--;
+        //adding current time to DOM
         $("#timer").text(timeRemaining);
+        //if time runs out
         if (timeRemaining === 0) {
+            //don't allow user to click on answer after time's up
             $("#multipleChoiceList li").prop('disabled', true);
+            //changing display to show gif tv and hide title and button
             $("#tv").show();
             $("#title").hide();
             $("#btn").hide();
+            //changes source of gif to correct answer from game object
             $("#gif").attr("src", game[randomQuestion].gifSrc);
+            //add 1 to incorrect answers
             numberIncorrect++;
+            //display new number of incorrect answers
             $("#number-incorrect").text("Incorrect Answers: " + numberIncorrect);
+            //stop timer
             clearInterval(intervalId);
+            //highlights the correct answer
             $("ol li:nth-child(" +(correctIndex +1) +")").addClass("bg-warning");
-            console.log("nth " +$("ol li:nth-child(" +(correctIndex +1) +")").text());
+            //time out function that after gif plays
             setTimeout(() => {
+                //unhighlight correct answer
                 $("ol li:nth-child(" +(correctIndex +1) +")").removeClass("bg-warning");
+                //empty the gif source
                 $("#gif").attr("src", "");
+                //call the trivia function
                 trivia();
             }, 5000);
         }
     }
 
+    //onclick event if user picks a list from A-D of answers
     $('#multipleChoiceList').on('click', 'li', function() {
-        console.log("this " +this.innerHTML);
-        console.log("correctAnswer " +correctAnswer);
+        //If the answer clicked equals correct answer:
         if (this.innerHTML === correctAnswer) {
+            //doesn't allow user to click on any other answer choices
             $("#multipleChoiceList li").prop('disabled', true);
+            //DOM shows tv, hides button and title
             $("#tv").show();
             $("#title").hide();
             $("#btn").hide();
